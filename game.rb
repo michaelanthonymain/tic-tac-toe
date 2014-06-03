@@ -36,7 +36,10 @@ class Game
   end
 
   def display_board
+    puts board_as_string
   end
+
+  private
 
   def check_rows
     @rows.each do row
@@ -44,6 +47,12 @@ class Game
         board.place_a_marker(cell, "O")
       end
     end
+  end
+
+  def board_as_string
+    board.cells.each_slice(3)
+               .map { |a, b, c| " #{a.state} | #{b.state} | #{c.state} \n"}
+               .join("---|---|---\n")
   end
 
 end
