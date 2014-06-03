@@ -12,17 +12,11 @@ class Game
 
   def play(order)
     if order == 1
-      display_board
       get_player_move
-      display_board
-      # find_cpu_move
+      find_cpu_move
     else 
-        #until game.finished?
-          #find_cpu_move
-          #place_a_marker
-          #get_player_move
-          #place_a_marker
-        #end
+      find_cpu_move
+      get_player_move
     end
   end
 
@@ -33,9 +27,14 @@ class Game
   end
 
   def get_player_move
+    display_board
     puts "Place an X.\n Valid moves are #{board.valid_moves.join(', ')}."
     response = gets.chomp
     board.place_a_marker(response, 'X')
+  end
+
+  def find_cpu_move
+    display_board
   end
 
   def display_board
