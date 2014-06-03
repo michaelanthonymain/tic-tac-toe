@@ -23,17 +23,20 @@ describe Board do
     end
    end
 
-  context " #place_an_x" do
-    it "should change the state of a cell to 'X'" do
+  context " #place_a_marker" do
+    it "should change the state of a cell" do
       cell = board.cells[0]
       expect(cell.state).to eq(' ')
-      board.place_an_x(cell)
+      board.place_a_marker(cell, 'X')
       expect(cell.state).to eq('X')
     end
   end
 
-  context " #check_rows" do
-    pending("yet to implement feature")
+  context " #build_rows" do
+    it "should make @rows a nested array" do
+      expect(board.rows.count).to eq(3)
+      expect(board.rows[0].count).to eq(3) 
+    end
   end
 
   context " #check_columns" do

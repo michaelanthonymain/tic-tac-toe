@@ -1,5 +1,4 @@
 require_relative '../board.rb'
-require_relative '../io.rb'
 require_relative '../cell.rb'
 require_relative '../game.rb'
 
