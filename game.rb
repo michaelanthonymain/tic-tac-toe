@@ -2,7 +2,7 @@ require_relative 'board.rb'
 require_relative 'cell.rb'
 
 class Game
-  attr_accessor :finished?
+  attr_accessor :finished
   attr_reader :board
 
   def initialize(board)
@@ -12,27 +12,29 @@ class Game
   end
 
   def play(order)
-    # if order == 1
-        #until game.finished?
-          #get_player_move
-          #place_a_marker
-          #find_cpu_move
-          #place_a_marker
-        #end
-    # else 
+    if order == 1
+      get_player_move
+      find_cpu_move
+    else 
         #until game.finished?
           #find_cpu_move
           #place_a_marker
           #get_player_move
           #place_a_marker
         #end
-    # end
+    end
   end
 
   def choose_order
     puts "Do you want to go first or second? (1, 2)"
     response = gets.chomp
     play(response)
+  end
+
+  def get_player_move
+    puts "Place an X.\n Valid moves are #{valid_moves.join(', ')}."
+    response = gets.chomp
+    board.place_a_marker(response, 'X')
   end
 
   def display_board
@@ -57,4 +59,5 @@ class Game
 
 end
 
-# Game.new.run!
+board = Board.new
+game = Game.new(board)
