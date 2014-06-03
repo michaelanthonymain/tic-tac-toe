@@ -23,29 +23,39 @@ describe Board do
     end
    end
 
-  context " #place_an_x" do
-    it "should change the state of a cell to 'X'" do
+  context " #place_a_marker" do
+    it "should change the state of a cell" do
       cell = board.cells[0]
       expect(cell.state).to eq(' ')
-      board.place_an_x(cell)
+      board.place_a_marker(0, 'X')
       expect(cell.state).to eq('X')
+    end
+
+    it "should delete the move from valid moves" do
+      board.place_a_marker(0, 'X')
+      expect(board.valid_moves.include?(0)).to eq(false)
     end
   end
 
-  context " #check_rows" do
-    pending("yet to implement feature")
+  context " #build_rows" do
+    it "should make @rows a nested array" do
+      expect(board.rows.count).to eq(3)
+      expect(board.rows[0].count).to eq(3) 
+    end
   end
 
-  context " #check_columns" do
-    pending("yet to implement feature")
+  context " #build_columns" do
+    it "should make @columns a nested array" do
+      expect(board.columns.count).to eq(3)
+      expect(board.columns[0].count).to eq(3)
+    end
   end
 
-  context " #check_diagonals" do
-    pending("yet to implement feature")
-  end
-
-  context " #place_an_o" do
-    pending("yet to implement feature")
+  context " #build_diagonals" do
+    it "should make @diagonals a nested array" do
+      expect(board.diagonals.count).to eq(2)
+      expect(board.diagonals[0].count).to eq(3)
+    end
   end
 
 end
