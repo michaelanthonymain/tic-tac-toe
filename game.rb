@@ -8,13 +8,14 @@ class Game
   def initialize(board)
     @board = board
     @finished = false
-    choose_order
   end
 
   def play(order)
     if order == 1
+      display_board
       get_player_move
-      find_cpu_move
+      display_board
+      # find_cpu_move
     else 
         #until game.finished?
           #find_cpu_move
@@ -28,11 +29,11 @@ class Game
   def choose_order
     puts "Do you want to go first or second? (1, 2)"
     response = gets.chomp
-    play(response)
+    play(response.to_i)
   end
 
   def get_player_move
-    puts "Place an X.\n Valid moves are #{valid_moves.join(', ')}."
+    puts "Place an X.\n Valid moves are #{board.valid_moves.join(', ')}."
     response = gets.chomp
     board.place_a_marker(response, 'X')
   end
@@ -61,3 +62,4 @@ end
 
 board = Board.new
 game = Game.new(board)
+game.choose_order

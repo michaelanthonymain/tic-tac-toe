@@ -17,7 +17,7 @@ class Board
 
 
   def place_a_marker(cell_index, x_or_o)
-    cell_to_mark = @cells[cell_index]
+    cell_to_mark = @cells[cell_index.to_i]
     if valid_moves.include?(cell_to_mark.location)
       valid_moves.delete_at(cell_to_mark.location)
       cell_to_mark.state = x_or_o.to_s

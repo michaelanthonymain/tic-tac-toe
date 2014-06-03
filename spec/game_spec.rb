@@ -7,5 +7,9 @@ let(:game) {Game.new(Board.new)}
     it "should initialize with a new board that is a Board object" do
       expect(game.board).to be_a Board
     end
+
+    it "should not be finished" do
+      expect(game.finished).to eq(false)
+    end
   end
 end
