@@ -12,4 +12,12 @@ let(:game) {Game.new(Board.new)}
       expect(game.finished).to eq(false)
     end
   end
+
+  context " #get_player_move" do
+    it "should place a marker at the desired location" do
+      game.stub(:gets).and_return("1")
+      game.get_player_move
+      expect(game.board.cells[1].state).to eq('X')
+    end
+  end
 end

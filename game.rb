@@ -12,11 +12,15 @@ class Game
 
   def play(order)
     if order == 1
-      get_player_move
-      find_cpu_move
+      until finished
+        get_player_move
+        find_cpu_move
+      end
     else 
-      find_cpu_move
-      get_player_move
+      until finished
+        find_cpu_move
+        get_player_move
+      end
     end
   end
 
@@ -34,7 +38,11 @@ class Game
   end
 
   def find_cpu_move
-    display_board
+    if board.valid_moves.include?(4)
+      board.place_a_marker(4, "0")
+    else
+      puts "The CPU doesn't know what to do."
+    end
   end
 
   def display_board
