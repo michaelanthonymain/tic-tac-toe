@@ -8,6 +8,7 @@ class Game
   def initialize(board)
     @board = board
     @finished = false
+    # choose_order
   end
 
   def play(order)
@@ -16,11 +17,14 @@ class Game
         get_player_move
         find_cpu_move
       end
-    else 
+    elsif order == 2
       until finished
         find_cpu_move
         get_player_move
       end
+    else
+      puts "I don't understand. First, or second?"
+      choose_order
     end
   end
 
@@ -39,7 +43,7 @@ class Game
 
   def find_cpu_move
     if board.valid_moves.include?(4)
-      board.place_a_marker(4, "0")
+      board.place_a_marker(4, 'O')
     else
       puts "The CPU doesn't know what to do."
     end
@@ -52,11 +56,20 @@ class Game
   private
 
   def check_rows
-    @rows.each do row
-      if row.select{|cell| cell.state =~ /\s/}.count == 1
-        board.place_a_marker(cell, "O")
+    board.rows.each do row
+      if count_markers(row, 'X') == 2
+        place_a_marker(find_empty_cell_in_group(row), 'O')
       end
     end
+  end
+
+  def find_empty_cell_in_group(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    empty_cell[0].location
+  end
+
+  def count_markers(group, x_or_o)
+    group.select{|cell| cell.state =~ /x_or_o/}.count
   end
 
   def board_as_string
@@ -69,4 +82,3 @@ end
 
 board = Board.new
 game = Game.new(board)
-game.choose_order

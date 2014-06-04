@@ -13,6 +13,15 @@ let(:game) {Game.new(Board.new)}
     end
   end
 
+  context " #choose_order" do
+    it "should set the order of moves" do
+      game.stub(:gets).and_return("1")
+      game.choose_order
+      expect(game.finished).to eq(false)
+      game.finished = true
+    end
+  end
+
   context " #get_player_move" do
     it "should place a marker at the desired location" do
       game.stub(:gets).and_return("1")
@@ -20,4 +29,5 @@ let(:game) {Game.new(Board.new)}
       expect(game.board.cells[1].state).to eq('X')
     end
   end
+
 end
