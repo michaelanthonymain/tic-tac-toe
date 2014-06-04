@@ -48,6 +48,8 @@ class Game
     end
   end
 
+  private
+
   def find_cpu_move
     if board.valid_moves.count >= 7
       early_game_cpu_move
@@ -65,8 +67,6 @@ class Game
       take_a_corner
     end
   end
-
-  private
 
   def take_the_middle
     board.place_a_marker(4, 'O')

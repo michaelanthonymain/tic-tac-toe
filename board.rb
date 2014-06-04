@@ -23,7 +23,10 @@ class Board
 
   def check_group(group)
     group.each do |subset|
-      if count_markers(subset, 'X') == 2
+      if count_markers(subset, 'X') == 2 && empty_cell_in_group?(subset)
+        place_a_marker(find_empty_cell_in_group(subset), 'O')
+        break
+      elsif count_markers(subset, 'O') == 2 && empty_cell_in_group?(subset)
         place_a_marker(find_empty_cell_in_group(subset), 'O')
         break
       end
@@ -66,6 +69,11 @@ class Board
 
   def count_markers(subset, x_or_o)
     subset.select{|cell| cell.state == x_or_o}.count
+  end
+
+  def empty_cell_in_group?(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    return true if empty_cell[0]
   end
 
   def find_empty_cell_in_group(group)
