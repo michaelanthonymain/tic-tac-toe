@@ -37,25 +37,4 @@ describe Board do
     end
   end
 
-  context " #build_rows" do
-    it "should make @rows a nested array" do
-      expect(board.rows.count).to eq(3)
-      expect(board.rows[0].count).to eq(3) 
-    end
-  end
-
-  context " #build_columns" do
-    it "should make @columns a nested array" do
-      expect(board.columns.count).to eq(3)
-      expect(board.columns[0].count).to eq(3)
-    end
-  end
-
-  context " #build_diagonals" do
-    it "should make @diagonals a nested array" do
-      expect(board.diagonals.count).to eq(2)
-      expect(board.diagonals[0].count).to eq(3)
-    end
-  end
-
 end

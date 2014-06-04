@@ -2,12 +2,13 @@ require_relative 'board.rb'
 require_relative 'cell.rb'
 
 class Game
-  attr_accessor :finished
+  attr_accessor :finished, :winner
   attr_reader :board
 
   def initialize(board)
     @board = board
     @finished = false
+    @winner = ''
     choose_order
   end
 
@@ -31,7 +32,7 @@ class Game
     if response == '1' || response == '2'
       play(response.to_i)
     else
-      puts "I don't understand. First, or second?"
+      puts "I don't understand. First, or second? (1, 2)"
       choose_order
     end
   end
@@ -51,13 +52,20 @@ class Game
   private
 
   def find_cpu_move
-    if board.valid_moves.count >= 7
+    if early_game?
       early_game_cpu_move
     else
-      board.check_group(board.rows)
-      board.check_group(board.columns)
-      board.check_group(board.diagonals)
+      board.check_groups('X')
+      # board.check_group(board.columns, 'X')
+      # board.check_group(board.diagonals, 'X')
+      # board.check_group(board.rows, 'O')
+      # board.check_group(board.columns, 'O')
+      # board.check_group(board.diagonals, 'O')
     end
+  end
+
+  def early_game?
+    board.valid_moves.count >= 7
   end
 
   def early_game_cpu_move
