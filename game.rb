@@ -8,7 +8,7 @@ class Game
   def initialize(board)
     @board = board
     @finished = false
-    # choose_order
+    choose_order
   end
 
   def play(order)
@@ -38,14 +38,29 @@ class Game
     display_board
     puts "Place an X.\n Valid moves are #{board.valid_moves.join(', ')}."
     response = gets.chomp
-    board.place_a_marker(response, 'X')
+    if valid_move?(response.to_i)
+      board.place_a_marker(response, 'X')
+    else
+      puts "Invalid move. Valid moves are #{board.valid_moves.join(', ')}."
+      get_player_move
+    end
   end
 
   def find_cpu_move
-    if board.valid_moves.include?(4)
-      board.place_a_marker(4, 'O')
+    if board.valid_moves.count >= 7
+      early_game_cpu_move
     else
-      puts "The CPU doesn't know what to do."
+      board.check_group(board.rows)
+      board.check_group(board.columns)
+      board.check_group(board.diagonals)
+    end
+  end
+
+  def early_game_cpu_move
+    if valid_move?(4)
+      take_the_middle
+    else 
+      take_a_corner
     end
   end
 
@@ -55,21 +70,22 @@ class Game
 
   private
 
-  def check_rows
-    board.rows.each do row
-      if count_markers(row, 'X') == 2
-        place_a_marker(find_empty_cell_in_group(row), 'O')
+  def take_the_middle
+    board.place_a_marker(4, 'O')
+  end
+
+  def take_a_corner
+    corners = [0, 2, 6, 8]
+    corners.each do |index|
+      if valid_move?(index)
+        board.place_a_marker(index, 'O')
+        break
       end
     end
   end
 
-  def find_empty_cell_in_group(group)
-    empty_cell = group.select{|cell| cell.state == ' '}
-    empty_cell[0].location
-  end
-
-  def count_markers(group, x_or_o)
-    group.select{|cell| cell.state =~ /x_or_o/}.count
+  def valid_move?(cell_index)
+    board.valid_moves.include?(cell_index)
   end
 
   def board_as_string

@@ -18,11 +18,21 @@ class Board
 
   def place_a_marker(cell_index, x_or_o)
     cell_to_mark = @cells[cell_index.to_i]
-    if valid_moves.include?(cell_to_mark.location)
-      valid_moves.delete_at(cell_to_mark.location)
+    # if valid_moves.include?(cell_to_mark.location)
+      valid_moves.delete_if{|move| move == cell_to_mark.location}
       cell_to_mark.state = x_or_o.to_s
-    else
-      puts "Invalid move. Valid moves are #{valid_moves.join(', ')}"
+
+    # else
+    #   puts "Invalid move. Valid moves are #{valid_moves.join(', ')}"
+    # end
+  end
+
+  def check_group(group)
+    group.each do |subset|
+      if count_markers(subset, 'X') == 2
+        place_a_marker(find_empty_cell_in_group(subset), 'O')
+        break
+      end
     end
   end
 
@@ -56,4 +66,12 @@ class Board
     @diagonals << diagonal_1 << diagonal_2
   end
 
+  def count_markers(subset, x_or_o)
+    subset.select{|cell| cell.state == x_or_o}.count
+  end
+
+  def find_empty_cell_in_group(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    empty_cell[0].location
+  end
 end
