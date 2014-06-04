@@ -15,16 +15,10 @@ class Board
     build_diagonals
   end
 
-
   def place_a_marker(cell_index, x_or_o)
     cell_to_mark = @cells[cell_index.to_i]
-    # if valid_moves.include?(cell_to_mark.location)
-      valid_moves.delete_if{|move| move == cell_to_mark.location}
-      cell_to_mark.state = x_or_o.to_s
-
-    # else
-    #   puts "Invalid move. Valid moves are #{valid_moves.join(', ')}"
-    # end
+    valid_moves.delete_if{|move| move == cell_to_mark.location}
+    cell_to_mark.state = x_or_o.to_s
   end
 
   def check_group(group)
@@ -34,6 +28,10 @@ class Board
         break
       end
     end
+  end
+
+  def display_board
+    puts board_as_string
   end
 
   private
@@ -73,5 +71,11 @@ class Board
   def find_empty_cell_in_group(group)
     empty_cell = group.select{|cell| cell.state == ' '}
     empty_cell[0].location
+  end
+
+  def board_as_string
+    cells.each_slice(3)
+         .map { |a, b, c| " #{a.state} | #{b.state} | #{c.state} \n"}
+         .join("---|---|---\n")
   end
 end

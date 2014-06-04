@@ -22,20 +22,22 @@ class Game
         find_cpu_move
         get_player_move
       end
-    else
-      puts "I don't understand. First, or second?"
-      choose_order
     end
   end
 
   def choose_order
     puts "Do you want to go first or second? (1, 2)"
     response = gets.chomp
-    play(response.to_i)
+    if response == '1' || response == '2'
+      play(response.to_i)
+    else
+      puts "I don't understand. First, or second?"
+      choose_order
+    end
   end
 
   def get_player_move
-    display_board
+    board.display_board
     puts "Place an X.\n Valid moves are #{board.valid_moves.join(', ')}."
     response = gets.chomp
     if valid_move?(response.to_i)
@@ -64,10 +66,6 @@ class Game
     end
   end
 
-  def display_board
-    puts board_as_string
-  end
-
   private
 
   def take_the_middle
@@ -86,12 +84,6 @@ class Game
 
   def valid_move?(cell_index)
     board.valid_moves.include?(cell_index)
-  end
-
-  def board_as_string
-    board.cells.each_slice(3)
-               .map { |a, b, c| " #{a.state} | #{b.state} | #{c.state} \n"}
-               .join("---|---|---\n")
   end
 
 end
