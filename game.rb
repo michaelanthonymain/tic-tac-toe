@@ -56,10 +56,10 @@ class Game
       early_game_cpu_move
     elsif check_to_win_or_block?('O')
       win_or_block('O')
-    elsif check_to_win_or_block?('X')
+    elsif p check_to_win_or_block?('X')
       win_or_block('X')
-    # else
-    #   take_a_corner
+    else
+      take_a_corner
     end
   end
 
