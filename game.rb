@@ -2,35 +2,31 @@ require_relative 'board.rb'
 require_relative 'cell.rb'
 
 class Game
-  attr_accessor :finished, :winner
+  attr_accessor :winner
   attr_reader :board
 
   def initialize(board)
     @board = board
-    @finished = false
     @winner = ''
     choose_order
   end
 
+  private
+
   def play(order)
     if order == 1
-      until finished
+      until finished?
         get_player_move
-        check_for_winner
         find_cpu_move
-        check_for_winner
       end
     elsif order == 2
-      until finished
+      until finished?
         find_cpu_move
-        check_for_winner
         get_player_move
-        check_for_winner
       end
     end
+    display_winner
   end
-
-  private
 
   def choose_order
     puts "Do you want to go first or second? (1, 2)"
@@ -84,11 +80,11 @@ class Game
   end
 
   def check_to_win_or_block?(marker_to_check)
-    board.check_groups(marker_to_check, "boolean") == true
+    board.check_groups_for_moves(marker_to_check, "boolean") == true
   end
 
   def win_or_block(marker_to_check)
-    board.place_a_marker(board.check_groups(marker_to_check, "location"), 'O')
+    board.place_a_marker(board.check_groups_for_moves(marker_to_check, "location"), 'O')
   end
 
   def take_the_middle
@@ -97,17 +93,43 @@ class Game
 
   def take_a_corner
     corners = [0, 2, 6, 8]
-    corners.each do |index|
-      if valid_move?(index)
-        board.place_a_marker(index, 'O')
+    corners.each do |corner|
+      if valid_move?(corner)
+        board.place_a_marker(corner, 'O')
         break
       end
     end
   end
 
-  def check_for_winner
+  def finished?
+    if board.show_valid_moves.empty?
+      true
+    elsif is_there_a_winner?
+      true
+    else
+      false
+    end
+  end
 
-    finished
+  def is_there_a_winner?
+    if board.check_groups_for_winner == 'X'
+      @winner = 'X'
+      return true
+    elsif board.check_groups_for_winner == 'O'
+      @winner = 'O'
+      return true
+    end
+  end
+
+  def display_winner
+    board.display_board
+    if winner == 'X' || winner == 'O'
+      puts "The winner is #{@winner}!\nThanks for playing!"
+      exit
+    else
+      puts "Looks like the game was a draw. Thanks for playing!"
+      exit
+    end
   end
 
 end
