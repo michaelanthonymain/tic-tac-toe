@@ -1,14 +1,16 @@
 class Board
   attr_accessor :cells, :valid_moves
-  attr_reader :groups
+  attr_reader :groups, :opposite_corners
 
   def initialize
     @cells = []
     @groups = []
+    @opposite_corners = []
     @valid_moves = (0..8).to_a
 
     build_board
     build_groups
+    build_opposite_corners
   end
 
   def check_groups_for_moves(x_or_o, return_value)
@@ -32,6 +34,12 @@ class Board
       elsif count_markers(subset, 'O') == 3
         return 'O'
       end
+    end
+  end
+
+  def check_opposite_corners
+    opposite_corners.each do |subset|
+      return true if count_markers(subset, 'X') == 2
     end
   end
 
@@ -69,6 +77,12 @@ class Board
     diagonal_0 = [@cells[0], @cells[4], @cells[8]]
     diagonal_1 = [@cells[6], @cells[4], @cells[2]]
     @groups << row_0 << row_1 << row_2 << col_0 << col_1 << col_2 << diagonal_0 << diagonal_1
+  end
+
+  def build_opposite_corners
+    opposite_corners_0 = [@cells[0], @cells[8]]
+    opposite_corners_1 = [@cells[2], @cells[6]]
+    @opposite_corners << opposite_corners_0 << opposite_corners_1
   end
 
   def board_as_string

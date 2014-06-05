@@ -58,6 +58,8 @@ class Game
       win_or_block('O')
     elsif check_to_win_or_block?('X')
       win_or_block('X')
+    elsif opponent_has_opposite_corners
+      take_a_side
     else
       take_a_corner
     end
@@ -87,6 +89,10 @@ class Game
     board.place_a_marker(board.check_groups_for_moves(marker_to_check, "location"), 'O')
   end
 
+  def opponent_has_opposite_corners
+    board.check_opposite_corners == true
+  end
+
   def take_the_middle
     board.place_a_marker(4, 'O')
   end
@@ -96,6 +102,16 @@ class Game
     corners.each do |corner|
       if valid_move?(corner)
         board.place_a_marker(corner, 'O')
+        break
+      end
+    end
+  end
+
+  def take_a_side
+    sides = [1, 3, 5, 7]
+    sides.each do |side|
+      if valid_move?(side)
+        board.place_a_marker(side, 'O')
         break
       end
     end
