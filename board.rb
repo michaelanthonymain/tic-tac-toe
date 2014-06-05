@@ -11,17 +11,9 @@ class Board
     build_groups
   end
 
-  def place_a_marker(cell_index, x_or_o)
-    cell_to_mark = @cells[cell_index.to_i]
-    valid_moves.delete_if{|move| move == cell_to_mark.location}
-    cell_to_mark.state = x_or_o.to_s
-  end
-
   def check_groups(x_or_o)
     groups.each do |subset|
-      if count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
-        place_a_marker(find_empty_cell_in_group(subset), 'O')
-      end
+      count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
     end
   end
 
@@ -29,6 +21,26 @@ class Board
     puts board_as_string
   end
 
+ def place_a_marker(cell_index, x_or_o)
+    cell_to_mark = @cells[cell_index.to_i]
+    valid_moves.delete_if{|move| move == cell_to_mark.location}
+    cell_to_mark.state = x_or_o.to_s
+  end
+
+  def count_markers(subset, x_or_o)
+    subset.select{|cell| cell.state == x_or_o}.count
+  end
+
+  def empty_cell_in_group?(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    return true if empty_cell[0]
+  end
+
+  def find_empty_cell_in_group(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    empty_cell[0].location
+  end
+  
   private
 
   def build_board
@@ -51,19 +63,6 @@ class Board
     @groups << row_0 << row_1 << row_2 << col_0 << col_1 << col_2 << diagonal_0 << diagonal_1
   end
 
-  def count_markers(subset, x_or_o)
-    subset.select{|cell| cell.state == x_or_o}.count
-  end
-
-  def empty_cell_in_group?(group)
-    empty_cell = group.select{|cell| cell.state == ' '}
-    return true if empty_cell[0]
-  end
-
-  def find_empty_cell_in_group(group)
-    empty_cell = group.select{|cell| cell.state == ' '}
-    empty_cell[0].location
-  end
 
   def board_as_string
     cells.each_slice(3)

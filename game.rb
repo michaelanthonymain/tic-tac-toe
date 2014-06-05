@@ -54,13 +54,10 @@ class Game
   def find_cpu_move
     if early_game?
       early_game_cpu_move
-    else
-      board.check_groups('X')
-      # board.check_group(board.columns, 'X')
-      # board.check_group(board.diagonals, 'X')
-      # board.check_group(board.rows, 'O')
-      # board.check_group(board.columns, 'O')
-      # board.check_group(board.diagonals, 'O')
+    elsif can_win?
+      attacking_move
+    elsif must_block?
+      defensive_move
     end
   end
 
@@ -74,6 +71,18 @@ class Game
     else 
       take_a_corner
     end
+  end
+
+  def can_win?
+    board.check_groups('O')
+  end
+
+  def attacking_move
+    
+  end
+
+  def must_block?
+    board.check_groups('X')
   end
 
   def take_the_middle
