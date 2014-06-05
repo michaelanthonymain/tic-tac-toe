@@ -22,6 +22,7 @@ class Game
     elsif order == 2
       until finished?
         find_cpu_move
+        next if is_there_a_winner?
         get_player_move
       end
     end
