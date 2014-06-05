@@ -26,6 +26,8 @@ class Game
     end
   end
 
+  private
+
   def choose_order
     puts "Do you want to go first or second? (1, 2)"
     response = gets.chomp
@@ -49,16 +51,20 @@ class Game
     end
   end
 
-  private
-
   def find_cpu_move
     if early_game?
       early_game_cpu_move
-    elsif can_win?
-      attacking_move
-    elsif must_block?
-      defensive_move
+    elsif check_to_win_or_block?('O')
+      win_or_block('O')
+    elsif check_to_win_or_block?('X')
+      win_or_block('X')
+    # else
+    #   take_a_corner
     end
+  end
+
+  def valid_move?(cell_index)
+    board.valid_moves.include?(cell_index)
   end
 
   def early_game?
@@ -73,16 +79,12 @@ class Game
     end
   end
 
-  def can_win?
-    board.check_groups('O')
+  def check_to_win_or_block?(marker_to_check)
+    board.check_groups(marker_to_check, "boolean") == true
   end
 
-  def attacking_move
-    
-  end
-
-  def must_block?
-    board.check_groups('X')
+  def win_or_block(marker_to_check)
+    board.place_a_marker(board.check_groups(marker_to_check, "location"), 'O')
   end
 
   def take_the_middle
@@ -97,10 +99,6 @@ class Game
         break
       end
     end
-  end
-
-  def valid_move?(cell_index)
-    board.valid_moves.include?(cell_index)
   end
 
 end

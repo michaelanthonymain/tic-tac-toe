@@ -11,9 +11,16 @@ class Board
     build_groups
   end
 
-  def check_groups(x_or_o)
-    groups.each do |subset|
-      count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+  def check_groups(x_or_o, return_value)
+    if return_value == "location"
+      groups.each do |subset|
+        count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+          return find_empty_cell_in_group(subset)
+      end
+    elsif return_value == "boolean"
+      groups.each do |subset|
+        return true if count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+      end
     end
   end
 
