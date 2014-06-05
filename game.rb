@@ -16,12 +16,16 @@ class Game
     if order == 1
       until finished
         get_player_move
+        check_for_winner
         find_cpu_move
+        check_for_winner
       end
     elsif order == 2
       until finished
         find_cpu_move
+        check_for_winner
         get_player_move
+        check_for_winner
       end
     end
   end
@@ -41,12 +45,12 @@ class Game
 
   def get_player_move
     board.display_board
-    puts "Place an X.\n Valid moves are #{board.valid_moves.join(', ')}."
+    puts "Place an X.\n Valid moves are #{board.show_valid_moves.join(', ')}."
     response = gets.chomp
     if valid_move?(response.to_i)
       board.place_a_marker(response, 'X')
     else
-      puts "Invalid move. Valid moves are #{board.valid_moves.join(', ')}."
+      puts "Invalid move. Valid moves are #{board.show_valid_moves.join(', ')}."
       get_player_move
     end
   end
@@ -56,7 +60,7 @@ class Game
       early_game_cpu_move
     elsif check_to_win_or_block?('O')
       win_or_block('O')
-    elsif p check_to_win_or_block?('X')
+    elsif check_to_win_or_block?('X')
       win_or_block('X')
     else
       take_a_corner
@@ -64,11 +68,11 @@ class Game
   end
 
   def valid_move?(cell_index)
-    board.valid_moves.include?(cell_index)
+    board.show_valid_moves.include?(cell_index)
   end
 
   def early_game?
-    board.valid_moves.count >= 7
+    board.show_valid_moves.count >= 7
   end
 
   def early_game_cpu_move
@@ -99,6 +103,11 @@ class Game
         break
       end
     end
+  end
+
+  def check_for_winner
+
+    finished
   end
 
 end

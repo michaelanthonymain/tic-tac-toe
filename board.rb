@@ -35,8 +35,8 @@ class Board
     cell_to_mark.state = x_or_o.to_s
   end
 
-  def count_markers(subset, x_or_o)
-    subset.select{|cell| cell.state == x_or_o}.count
+  def count_markers(group, x_or_o)
+    group.select{|cell| cell.state == x_or_o}.count
   end
 
   def empty_cell_in_group?(group)
@@ -47,6 +47,10 @@ class Board
   def find_empty_cell_in_group(group)
     empty_cell = group.select{|cell| cell.state == ' '}
     empty_cell[0].location
+  end
+
+  def show_valid_moves
+    valid_moves
   end
   
   private
