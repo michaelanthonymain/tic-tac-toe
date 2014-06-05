@@ -1,19 +1,45 @@
 class Board
   attr_accessor :cells, :valid_moves
-  attr_reader :groups
+  attr_reader :groups, :opposite_corners
 
   def initialize
     @cells = []
     @groups = []
+    @opposite_corners = []
     @valid_moves = (0..8).to_a
 
     build_board
     build_groups
+    build_opposite_corners
   end
 
-  def check_groups(x_or_o)
+  def check_groups_for_moves(x_or_o, return_value)
+    if return_value == "location"
+      groups.each do |subset|
+        if count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+          return find_empty_cell_in_group(subset)
+        end
+      end
+    elsif return_value == "boolean"
+      groups.each do |subset|
+        return true if count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+      end
+    end
+  end
+
+  def check_groups_for_winner
     groups.each do |subset|
-      count_markers(subset, x_or_o) == 2 && empty_cell_in_group?(subset)
+      if count_markers(subset, 'X') == 3  
+        return 'X' 
+      elsif count_markers(subset, 'O') == 3
+        return 'O'
+      end
+    end
+  end
+
+  def check_opposite_corners
+    opposite_corners.each do |subset|
+      return true if count_markers(subset, 'X') == 2
     end
   end
 
@@ -27,18 +53,8 @@ class Board
     cell_to_mark.state = x_or_o.to_s
   end
 
-  def count_markers(subset, x_or_o)
-    subset.select{|cell| cell.state == x_or_o}.count
-  end
-
-  def empty_cell_in_group?(group)
-    empty_cell = group.select{|cell| cell.state == ' '}
-    return true if empty_cell[0]
-  end
-
-  def find_empty_cell_in_group(group)
-    empty_cell = group.select{|cell| cell.state == ' '}
-    empty_cell[0].location
+  def show_valid_moves
+    valid_moves
   end
   
   private
@@ -63,10 +79,29 @@ class Board
     @groups << row_0 << row_1 << row_2 << col_0 << col_1 << col_2 << diagonal_0 << diagonal_1
   end
 
+  def build_opposite_corners
+    opposite_corners_0 = [@cells[0], @cells[8]]
+    opposite_corners_1 = [@cells[2], @cells[6]]
+    @opposite_corners << opposite_corners_0 << opposite_corners_1
+  end
 
   def board_as_string
     cells.each_slice(3)
          .map { |a, b, c| " #{a.state} | #{b.state} | #{c.state} \n"}
          .join("---|---|---\n")
+  end
+
+  def count_markers(group, x_or_o)
+    group.select{|cell| cell.state == x_or_o}.count
+  end
+
+  def empty_cell_in_group?(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    return true if empty_cell[0]
+  end
+
+  def find_empty_cell_in_group(group)
+    empty_cell = group.select{|cell| cell.state == ' '}
+    empty_cell[0].location
   end
 end
