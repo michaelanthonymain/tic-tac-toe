@@ -6,9 +6,12 @@ In order to play:
 
   1. Clone this repo.
   2. Navigate to the directory in your terminal.
-  3. Type ``` ruby game.rb ```
+  3. Type ``` ruby game.rb ```.
   4. Choose if you want to go first or second.
-  5. Enjoy!
+  5. The nine spaces on the board are numbered 0 - 8. 
+  6. Choose where you would like to place your mark.
+  7. The computer will move automatically.
+  8. Enjoy and good luck!
 
 In order to run specs:
 
