@@ -9,7 +9,10 @@ class Game
   def initialize(board)
     @board = board
     @winner = nil
-    set_order(UserPrompter::choose_order)
+  end
+
+  def set_order(input)
+    play(input)
   end
 
   private
@@ -28,10 +31,6 @@ class Game
       end
     end
     determine_winner
-  end
-
-  def set_order(input)
-    play(input)
   end
 
   def find_player_move
@@ -147,3 +146,4 @@ end
 
 board = Board.new
 game = Game.new(board)
+game.set_order(UserPrompter::choose_order)
