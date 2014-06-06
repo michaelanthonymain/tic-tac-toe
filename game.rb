@@ -1,25 +1,32 @@
 require_relative 'board.rb'
 require_relative 'cell.rb'
+require_relative 'userprompter.rb'
 
 class Game
-  attr_accessor :winner
+  attr_accessor :winner, :user_response
   attr_reader :board
 
   def initialize(board)
     @board = board
     @winner = ''
-    # choose_order
+    @user_response = ''
+    UserPrompter::choose_order
+    set_order
+  end
+
+  def self.set_user_response(input)
+    @user_response = input
   end
 
   private
 
   def play(order)
-    if order == 1
+    if order == '1'
       until finished?
         get_player_move
         find_cpu_move
       end
-    elsif order == 2
+    elsif order == '2'
       until finished?
         find_cpu_move
         next if is_there_a_winner?
@@ -29,26 +36,15 @@ class Game
     display_winner
   end
 
-  def choose_order
-    puts "Do you want to go first or second? (1, 2)"
-    response = gets.chomp
-    if response == '1' || response == '2'
-      play(response.to_i)
-    else
-      puts "I don't understand. First, or second? (1, 2)"
-      choose_order
-    end
+  def set_order
+    play(user_response)
   end
 
-  def get_player_move
-    board.display_board
-    puts "Place an X.\n Valid moves are #{board.show_valid_moves.join(', ')}."
-    response = gets.chomp
-    if valid_move?(response.to_i)
-      board.place_a_marker(response, 'X')
+  def set_player_move
+    if valid_move?(user_response)
+      board.place_a_marker(user_response, 'X')
     else
-      puts "Invalid move. Valid moves are #{board.show_valid_moves.join(', ')}."
-      get_player_move
+      UserPrompter.get_player_move_invalid
     end
   end
 
@@ -138,14 +134,11 @@ class Game
     end
   end
 
-  def display_winner
-    board.display_board
+  def determine_winner
     if winner == 'X' || winner == 'O'
-      puts "The winner is #{@winner}!\nThanks for playing!"
-      exit
+      display_winner('winner')
     else
-      puts "Looks like the game was a draw. Thanks for playing!"
-      exit
+      display_winner('draw')
     end
   end
 

@@ -11,14 +11,11 @@ let(:game) {Game.new(Board.new)}
     it "should not have a winner" do
       expect(game.winner).to eq('')
     end
-  end
 
-#   context " #get_player_move" do
-#     it "should place a marker at the desired location" do
-#       game.stub(:gets).and_return("1")
-#       game.get_player_move
-#       expect(game.board.cells[1].state).to eq('X')
-#     end
-#   end
+    it "should start the game with #choose_order" do
+      game.stub(:gets).with('1')
+    end
+
+  end
 
 end
