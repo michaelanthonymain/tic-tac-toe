@@ -28,36 +28,37 @@ class UserPrompter
     end
     exit
   end
-end
 
-class Writer
-  def self.ask_for_order(output_stream=$stdout)
-    output_stream.puts "Do you want to go first or second? (1, 2)"
+
+  class Writer
+    def self.ask_for_order(output_stream=$stdout)
+      output_stream.puts "Do you want to go first or second? (1, 2)"
+    end
+
+    def self.ask_for_move(output_stream=$stdout)
+      output_stream.puts "Place an X by typing the number of the space you want."
+    end
+
+    def self.notify_invalid(output_stream=$stdout)
+      output_stream.puts "That's not a valid response."
+    end
+
+    def self.show_draw_outcome(output_stream=$stdout)
+      output_stream.puts "Looks like the game was a draw. Thanks for playing!"
+    end
+
+    def self.show_winner_outcome(output_stream=$stdout, winner)
+      output_stream.puts "The winner is #{winner}! Thanks for playing!"
+    end
   end
 
-  def self.ask_for_move(output_stream=$stdout)
-    output_stream.puts "Place an X by typing the number of the space you want."
-  end
+  class Reader
+    def self.read_order(input_stream=$stdin)
+      input = input_stream.gets.chomp
+    end
 
-  def self.notify_invalid(output_stream=$stdout)
-    output_stream.puts "That's not a valid response."
-  end
-
-  def self.show_draw_outcome(output_stream=$stdout)
-    output_stream.puts "Looks like the game was a draw. Thanks for playing!"
-  end
-
-  def self.show_winner_outcome(output_stream=$stdout, winner)
-    output_stream.puts "The winner is #{winner}! Thanks for playing!"
-  end
-end
-
-class Reader
-  def self.read_order(input_stream=$stdin)
-    input = input_stream.gets.chomp
-  end
-
-  def self.read_move(input_stream=$stdin)
-    input = input_stream.gets.chomp
+    def self.read_move(input_stream=$stdin)
+      input = input_stream.gets.chomp
+    end
   end
 end

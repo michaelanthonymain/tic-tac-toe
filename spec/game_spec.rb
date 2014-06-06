@@ -9,7 +9,7 @@ let(:game) {Game.new(Board.new)}
     end
 
     it "should not have a winner" do
-      expect(game.winner).to eq('')
+      expect(game.winner).to eq(nil)
     end
   end
 
