@@ -1,7 +1,11 @@
 require 'spec_helper'
 
-#public methods to test: check_groups_for_moves, check_groups_for_winner,
-#check_opposite_corners.
+=begin
+public methods to test: check_groups_for_moves, check_groups_for_winner,
+check_opposite_corners. Would like to test return values here, but
+tests have been getting the nested arrays only -- not the actual return
+values.
+=end
 
 describe Board do
   let(:board) { Board.new }

@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+=begin
+Only public method left to test is set_order, which just calls
+another method based on input. Not sure how to write a test for that (you
+probably would just test #play instead.) Testing private methods?
+=end
+
 describe Game do
 let(:game) {Game.new(Board.new)}
 
