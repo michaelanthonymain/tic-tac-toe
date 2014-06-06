@@ -25,14 +25,14 @@ class UserPrompter
   #   Game::set_user_response(input)
   # end
 
-  # def self.display_winner(winner_or_draw)
-  #   if winner_or_draw == 'winner'
-  #     puts "The winner is #{game.winner}!\nThanks for playing!"
-  #   else
-  #     puts "Looks like the game was a draw. Thanks for playing!"
-  #   end
-  #   exit
-  # end
+  def self.display_winner(reader=Reader, writer=Writer, winner_or_draw)
+    if winner_or_draw == 'draw'
+      writer.show_draw_outcome 
+    else
+      writer.show_winner_outcome(winner_or_draw)
+    end
+    exit
+  end
 end
 
 class Writer
@@ -42,6 +42,14 @@ class Writer
 
   def self.notify_invalid(output_stream=$stdout)
     output_stream.puts "That's not a valid response."
+  end
+
+  def self.show_draw_outcome(output_stream=$stdout)
+    output_stream.puts "Looks like the game was a draw. Thanks for playing!"
+  end
+
+  def self.show_winner_outcome(output_stream=$stdout, winner)
+    output_stream.puts "The winner is #{winner}! Thanks for playing!"
   end
 end
 

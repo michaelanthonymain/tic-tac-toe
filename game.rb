@@ -33,7 +33,7 @@ class Game
         get_player_move
       end
     end
-    display_winner
+    determine_winner
   end
 
   def set_order
@@ -136,9 +136,9 @@ class Game
 
   def determine_winner
     if winner == 'X' || winner == 'O'
-      display_winner('winner')
+      UserPrompter::display_winner('#{@winner}')
     else
-      display_winner('draw')
+      UserPrompter::display_winner('draw')
     end
   end
 
