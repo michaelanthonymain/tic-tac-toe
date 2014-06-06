@@ -9,13 +9,13 @@ class Game
   def initialize(board)
     @board = board
     @winner = nil
-    @user_response = '1'
+    @user_response = nil
     set_user_response(UserPrompter::choose_order)
     set_order
   end
 
   def set_user_response(input)
-    user_response = input
+    @user_response = input
   end
 
   private
@@ -23,18 +23,14 @@ class Game
   def play(order)
     if order == '1'
       until finished?
-        board.display_board
-        board.display_valid_moves
-        set_user_response(UserPrompter::get_player_move)
+        find_player_move
         find_cpu_move
       end
     elsif order == '2'
       until finished?
         find_cpu_move
         next if is_there_a_winner?
-        board.display_board
-        board.display_valid_moves
-        set_user_response(UserPrompter::get_player_move)
+        find_player_move
       end
     end
     determine_winner
@@ -44,11 +40,18 @@ class Game
     play(user_response)
   end
 
+  def find_player_move
+    board.display_board
+    board.display_valid_moves
+    set_user_response(UserPrompter::get_player_move)
+    set_player_move
+  end
+
   def set_player_move
-    if valid_move?(user_response)
-      board.place_a_marker(user_response, 'X')
+    if valid_move?(user_response.to_i)
+      board.place_a_marker(user_response.to_i, 'X')
     else
-      UserPrompter::writer.notify_invalid
+      UserPrompter::Writer.notify_invalid
       set_user_response(UserPrompter::get_player_move)
     end
   end
@@ -140,8 +143,9 @@ class Game
   end
 
   def determine_winner
+    board.display_board
     if winner == 'X' || winner == 'O'
-      UserPrompter::display_winner('#{@winner}')
+      UserPrompter::display_winner("#{winner}")
     else
       UserPrompter::display_winner('draw')
     end
