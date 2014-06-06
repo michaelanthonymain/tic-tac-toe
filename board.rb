@@ -47,6 +47,10 @@ class Board
     puts board_as_string
   end
 
+  def display_valid_moves
+    puts "Valid moves are: #{valid_moves.join(', ')}."
+  end
+
  def place_a_marker(cell_index, x_or_o)
     cell_to_mark = @cells[cell_index.to_i]
     valid_moves.delete_if{|move| move == cell_to_mark.location}

@@ -23,21 +23,24 @@ class Game
   def play(order)
     if order == '1'
       until finished?
-        get_player_move
+        board.display_board
+        board.display_valid_moves
+        set_user_response(UserPrompter::get_player_move)
         find_cpu_move
       end
     elsif order == '2'
       until finished?
         find_cpu_move
         next if is_there_a_winner?
-        get_player_move
+        board.display_board
+        board.display_valid_moves
+        set_user_response(UserPrompter::get_player_move)
       end
     end
     determine_winner
   end
 
   def set_order
-    p user_response
     play(user_response)
   end
 
@@ -45,7 +48,8 @@ class Game
     if valid_move?(user_response)
       board.place_a_marker(user_response, 'X')
     else
-      UserPrompter.get_player_move_invalid
+      UserPrompter::writer.notify_invalid
+      set_user_response(UserPrompter::get_player_move)
     end
   end
 

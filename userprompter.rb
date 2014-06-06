@@ -9,18 +9,11 @@ class UserPrompter
     self.choose_order(reader, writer)
   end
 
-  # def self.get_player_move
-  #   board.display_board
-  #   puts "Place an X.\n Valid moves are #{board.show_valid_moves.join(', ')}."
-  #   get_input
-  #   Game::set_user_response(input)
-  # end
-
-  # def self.get_player_move_invalid
-  #   puts "Invalid move. Valid moves are #{board.show_valid_moves.join(', ')}."
-  #   get_input
-  #   Game::set_user_response(input)
-  # end
+  def self.get_player_move(reader=Reader, writer=Writer)
+    writer.ask_for_move
+    move = reader.read_move
+    return move
+  end
 
   def self.display_winner(reader=Reader, writer=Writer, winner_or_draw)
     if winner_or_draw == 'draw'
@@ -34,7 +27,11 @@ end
 
 class Writer
   def self.ask_for_order(output_stream=$stdout)
-    output_stream.print "Do you want to go first or second? (1, 2)"
+    output_stream.puts "Do you want to go first or second? (1, 2)"
+  end
+
+  def self.ask_for_move(output_stream=$stdout)
+    output_stream.puts "Place an X by typing the number of the space you want."
   end
 
   def self.notify_invalid(output_stream=$stdout)
@@ -52,6 +49,10 @@ end
 
 class Reader
   def self.read_order(input_stream=$stdin)
+    input = input_stream.gets.chomp
+  end
+
+  def self.read_move(input_stream=$stdin)
     input = input_stream.gets.chomp
   end
 end
