@@ -51,8 +51,8 @@ class Game
     if valid_move?(user_response.to_i)
       board.place_a_marker(user_response.to_i, 'X')
     else
-      UserPrompter::Writer.notify_invalid
-      set_user_response(UserPrompter::get_player_move)
+      set_user_response(UserPrompter::get_player_move_invalid)
+      set_player_move
     end
   end
 

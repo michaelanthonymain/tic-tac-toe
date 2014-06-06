@@ -15,6 +15,11 @@ class UserPrompter
     return move
   end
 
+  def self.get_player_move_invalid(reader=Reader, writer=Writer)
+    writer.notify_invalid
+    return self.get_player_move(reader,writer)
+  end
+
   def self.display_winner(reader=Reader, writer=Writer, winner_or_draw)
     if winner_or_draw == 'draw'
       writer.show_draw_outcome 

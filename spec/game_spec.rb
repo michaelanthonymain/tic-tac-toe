@@ -11,11 +11,6 @@ let(:game) {Game.new(Board.new)}
     it "should not have a winner" do
       expect(game.winner).to eq('')
     end
-
-    it "should start the game with #choose_order" do
-      game.stub(:gets).with('1')
-    end
-
   end
 
 end
