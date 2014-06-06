@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+=begin
+Only public method left to test is set_order, which just calls
+another method based on input. Not sure how to write a test for that (you
+probably would just test #play instead.) Testing private methods?
+=end
+
 describe Game do
 let(:game) {Game.new(Board.new)}
 
@@ -8,25 +14,8 @@ let(:game) {Game.new(Board.new)}
       expect(game.board).to be_a Board
     end
 
-    it "should not be finished" do
-      expect(game.finished).to eq(false)
-    end
-  end
-
-  context " #choose_order" do
-    it "should set the order of moves" do
-      game.stub(:gets).and_return("1")
-      game.choose_order
-      expect(game.finished).to eq(false)
-      game.finished = true
-    end
-  end
-
-  context " #get_player_move" do
-    it "should place a marker at the desired location" do
-      game.stub(:gets).and_return("1")
-      game.get_player_move
-      expect(game.board.cells[1].state).to eq('X')
+    it "should not have a winner" do
+      expect(game.winner).to eq(nil)
     end
   end
 

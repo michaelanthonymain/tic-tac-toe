@@ -1,5 +1,6 @@
 require_relative 'board.rb'
 require_relative 'cell.rb'
+require_relative 'userprompter.rb'
 
 class Game
   attr_accessor :winner
@@ -7,48 +8,42 @@ class Game
 
   def initialize(board)
     @board = board
-    @winner = ''
-    choose_order
+    @winner = nil
+  end
+
+  def set_order(input)
+    play(input)
   end
 
   private
 
   def play(order)
-    if order == 1
+    if order == '1'
       until finished?
-        get_player_move
+        find_player_move
         find_cpu_move
       end
-    elsif order == 2
+    elsif order == '2'
       until finished?
         find_cpu_move
         next if is_there_a_winner?
-        get_player_move
+        find_player_move
       end
     end
-    display_winner
+    determine_winner
   end
 
-  def choose_order
-    puts "Do you want to go first or second? (1, 2)"
-    response = gets.chomp
-    if response == '1' || response == '2'
-      play(response.to_i)
-    else
-      puts "I don't understand. First, or second? (1, 2)"
-      choose_order
-    end
-  end
-
-  def get_player_move
+  def find_player_move
     board.display_board
-    puts "Place an X.\n Valid moves are #{board.show_valid_moves.join(', ')}."
-    response = gets.chomp
-    if valid_move?(response.to_i)
-      board.place_a_marker(response, 'X')
+    board.display_valid_moves
+    set_player_move(UserPrompter::get_player_move)
+  end
+
+  def set_player_move(input)
+    if valid_move?(input.to_i)
+      board.place_a_marker(input.to_i, 'X')
     else
-      puts "Invalid move. Valid moves are #{board.show_valid_moves.join(', ')}."
-      get_player_move
+      set_player_move(UserPrompter::get_player_move_invalid)
     end
   end
 
@@ -138,14 +133,12 @@ class Game
     end
   end
 
-  def display_winner
+  def determine_winner
     board.display_board
     if winner == 'X' || winner == 'O'
-      puts "The winner is #{@winner}!\nThanks for playing!"
-      exit
+      UserPrompter::display_winner("#{winner}")
     else
-      puts "Looks like the game was a draw. Thanks for playing!"
-      exit
+      UserPrompter::display_winner('draw')
     end
   end
 
@@ -153,3 +146,4 @@ end
 
 board = Board.new
 game = Game.new(board)
+game.set_order(UserPrompter::choose_order)
