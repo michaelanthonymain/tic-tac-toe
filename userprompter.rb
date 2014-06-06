@@ -4,7 +4,7 @@ class UserPrompter
   def self.choose_order(reader=Reader, writer=Writer)
     writer.ask_for_order
     order = reader.read_order
-    if order
+    if order == '1' || order == '2'
       Game::set_user_response(order)
     else
       writer.notify_invalid
@@ -56,6 +56,5 @@ end
 class Reader
   def self.read_order(input_stream=$stdin)
     input = input_stream.gets.chomp
-    return true if input == '1' || input == '2'
   end
 end

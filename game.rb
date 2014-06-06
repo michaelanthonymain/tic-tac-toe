@@ -8,14 +8,14 @@ class Game
 
   def initialize(board)
     @board = board
-    @winner = ''
-    @user_response = ''
+    @winner = nil
+    @user_response = '1'
     UserPrompter::choose_order
     set_order
   end
 
   def self.set_user_response(input)
-    @user_response = input
+    user_response = input
   end
 
   private
@@ -37,6 +37,7 @@ class Game
   end
 
   def set_order
+    p user_response
     play(user_response)
   end
 
