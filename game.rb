@@ -3,20 +3,14 @@ require_relative 'cell.rb'
 require_relative 'userprompter.rb'
 
 class Game
-  attr_accessor :winner#, :user_response
+  attr_accessor :winner
   attr_reader :board
 
   def initialize(board)
     @board = board
     @winner = nil
-    #@user_response = nil
-    #set_user_response(UserPrompter::choose_order)
     set_order(UserPrompter::choose_order)
   end
-
-  # def set_user_response(input)
-  #   @user_response = input
-  # end
 
   private
 
@@ -43,7 +37,6 @@ class Game
   def find_player_move
     board.display_board
     board.display_valid_moves
-    # set_user_response(UserPrompter::get_player_move)
     set_player_move(UserPrompter::get_player_move)
   end
 
@@ -51,7 +44,6 @@ class Game
     if valid_move?(input.to_i)
       board.place_a_marker(input.to_i, 'X')
     else
-      #set_user_response(UserPrompter::get_player_move_invalid)
       set_player_move(UserPrompter::get_player_move_invalid)
     end
   end
