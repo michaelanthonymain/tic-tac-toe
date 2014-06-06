@@ -13,7 +13,7 @@ In order to play:
 In order to run specs:
 
   1. Open up ```game.rb```
-  2. Comment out this line: ```game.set_order(UserPrompter::choose_order)```
+  2. Comment out this line: ```game.set_order(UserPrompter::choose_order)``` (This is line 149, all the way at the bottom).
   3. Then run ```rspec spec``` from terminal.
   4. Don't forget to uncomment that line when you want to play again!
 
