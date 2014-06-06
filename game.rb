@@ -10,11 +10,11 @@ class Game
     @board = board
     @winner = nil
     @user_response = '1'
-    UserPrompter::choose_order
+    set_user_response(UserPrompter::choose_order)
     set_order
   end
 
-  def self.set_user_response(input)
+  def set_user_response(input)
     user_response = input
   end
 

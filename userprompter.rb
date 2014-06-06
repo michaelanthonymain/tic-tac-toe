@@ -4,12 +4,9 @@ class UserPrompter
   def self.choose_order(reader=Reader, writer=Writer)
     writer.ask_for_order
     order = reader.read_order
-    if order == '1' || order == '2'
-      Game::set_user_response(order)
-    else
-      writer.notify_invalid
-      self.choose_order(reader, writer)
-    end
+    return order if order == '1' || order == '2'
+    writer.notify_invalid
+    self.choose_order(reader, writer)
   end
 
   # def self.get_player_move
