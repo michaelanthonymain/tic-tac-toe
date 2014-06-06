@@ -8,7 +8,7 @@ class Game
   def initialize(board)
     @board = board
     @winner = ''
-    choose_order
+    # choose_order
   end
 
   private

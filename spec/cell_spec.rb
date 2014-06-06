@@ -7,6 +7,10 @@ describe Cell do
     it "should have a state of ' ' " do
       cell.state.should eq(' ')
     end 
+
+    it "should have a location" do
+      cell.location.should eq(0)
+    end
   end
 
 end
