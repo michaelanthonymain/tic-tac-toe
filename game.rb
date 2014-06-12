@@ -25,8 +25,8 @@ class Game
       end
     elsif order == '2'
       until finished?
-        find_cpu_move
-        next if is_there_a_winner?
+        p find_cpu_move
+        break if finished?
         find_player_move
       end
     end
@@ -56,7 +56,7 @@ class Game
       win_or_block('X')
     elsif opponent_has_opposite_corners
       take_a_side
-    elsif check_corners
+    elsif check_corners == true
       take_a_corner
     else
       take_a_side
@@ -98,7 +98,7 @@ class Game
   def check_corners
     corners = [0, 2, 6, 8]
     corners.each do |corner|
-      return true if valid_move?(corner)
+      return true if valid_move?(corner)    
     end
   end
 
